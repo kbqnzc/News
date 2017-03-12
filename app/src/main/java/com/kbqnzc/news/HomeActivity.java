@@ -101,18 +101,7 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
             Toast.makeText(this,"发送成功",Toast.LENGTH_SHORT).show();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        URL targetUrl = new URL("http://v.juhe.cn/toutiao/index?type=top&key=d728ab4e75e137c4f23aec12ed3ee6cd");
-                        String json = HttpClientUtil.getJson(targetUrl);
-                        Log.v("HomeActivity",json);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

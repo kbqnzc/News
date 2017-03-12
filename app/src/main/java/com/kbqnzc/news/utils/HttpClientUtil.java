@@ -12,12 +12,16 @@ import java.net.URL;
  * 网络访问工具类
  */
 public class HttpClientUtil {
+    //接口回调
+    public interface GetJsonListener{
+        public void getJsonSuccess(String json);
+        public void getJsonFail(int responseCode);
+        public void getException(Exception e);
+    }
     /**
-     *
      * @param targetUrl 获取网络数据
-     * @return
      */
-    public static String getJson(URL targetUrl){
+    public static void getJson(URL targetUrl,GetJsonListener listener){
         HttpURLConnection httpURLConnection = null;
         StringBuffer json = new StringBuffer();
         InputStream inputStream = null;
@@ -36,9 +40,12 @@ public class HttpClientUtil {
                 while((msg = bufferedReader.readLine())!=null){
                    json.append(msg) ;
                 }
+                listener.getJsonSuccess(json.toString());
+            }else {
+                listener.getJsonFail(httpURLConnection.getResponseCode());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            listener.getException(e);
         }finally {
             try {
                 bufferedReader.close();
@@ -49,6 +56,5 @@ public class HttpClientUtil {
             }
             httpURLConnection.disconnect();
         }
-        return json.toString();
     }
 }
