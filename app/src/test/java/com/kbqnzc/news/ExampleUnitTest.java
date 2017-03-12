@@ -1,5 +1,7 @@
 package com.kbqnzc.news;
 
+import com.google.gson.Gson;
+import com.kbqnzc.news.entity.NewsofJuhe;
 import com.kbqnzc.news.utils.HttpClientUtil;
 
 import org.junit.Test;
@@ -7,6 +9,7 @@ import org.junit.Test;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -27,7 +30,13 @@ public class ExampleUnitTest {
             HttpClientUtil.getJson(targetUrl, new HttpClientUtil.GetJsonListener() {
                 @Override
                 public void getJsonSuccess(String json) {
-                    System.out.print(json);
+//                    System.out.print(json);
+                    Gson gson = new Gson();
+                    NewsofJuhe newsData = gson.fromJson(json,NewsofJuhe.class);
+                    List<NewsofJuhe.Data> dataList = newsData.getResult().getData();
+                    for(NewsofJuhe.Data data : dataList){
+                        System.out.println(data.getAuthor_name()+"--"+data.getTitle());
+                    }
                 }
 
                 @Override
